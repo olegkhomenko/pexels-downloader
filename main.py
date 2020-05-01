@@ -31,8 +31,8 @@ def main(args):
     photos_dict = {}
 
     # Step 1: Getting urls and meta information
-    while True or page < PAGE_LIMIT:
-        api.search(query, page=page, results_per_page=10)
+    while page <= PAGE_LIMIT:
+        api.search(query, page=page, results_per_page=RESULTS_PER_PAGE)
         photos = api.get_entries()
 
         for photo in tqdm.tqdm(photos):
