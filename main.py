@@ -1,6 +1,7 @@
 import argparse
 import json
 import os
+import time
 
 import requests
 import tqdm
@@ -12,7 +13,15 @@ RESULTS_PER_PAGE = 10
 PAGE_LIMIT = MAX_IMAGES_PER_QUERY / RESULTS_PER_PAGE
 
 
+def get_sleep(t):
+    def sleep():
+        time.sleep(t)
+    return sleep
+
+
 def main(args):
+    sleep = get_sleep(args.sleep)
+
     api = API(PEXELS_API_KEY)
     query = args.query
 
@@ -36,6 +45,7 @@ def main(args):
             break
 
         page += 1
+        sleep()
 
     # Step 2: Downloading
     if photos_dict:
@@ -66,5 +76,6 @@ if __name__ == '__main__':
     parser.add_argument('--resolution', choices=['original', 'large2x', 'large',
                                                  'medium', 'small', 'portrait',
                                                  'landscape', 'tiny'], default='original')
+    parser.add_argument('--sleep', type=float, default=0.1)
     args = parser.parse_args()
     main(args)
