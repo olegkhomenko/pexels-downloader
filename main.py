@@ -40,12 +40,13 @@ def main(args):
             counter += 1
 
         if not api.has_next_page:
-            print(f"Finishing at page: {page}")
-            print(f"Images were processed: {counter}")
             break
 
         page += 1
         sleep()
+
+    print(f"Finishing at page: {page}")
+    print(f"Images were processed: {counter}")
 
     # Step 2: Downloading
     if photos_dict:
