@@ -16,15 +16,11 @@ def scrap_pexels(
     """Scrap Pexels website with a specific query. The function saves result links to links_file"""
     browser = Chrome(executable_path=chromedriver_path)
     browser.get(f"https://www.pexels.com/search/{query}/")
-    body_scroll_height = (
-        browser.execute_script("return document.body.scrollHeight") * scroll_coef
-    )
+    body_scroll_height = browser.execute_script("return document.body.scrollHeight") * scroll_coef
     scroll_height_from = 0
     scroll_height_to = body_scroll_height
 
-    browser.execute_script(
-        f"window.scrollTo({scroll_height_from}, {scroll_height_to});"
-    )
+    browser.execute_script(f"window.scrollTo({scroll_height_from}, {scroll_height_to});")
     scroll_height_from = scroll_height_to
     scroll_height_to += body_scroll_height
 
@@ -39,9 +35,7 @@ def scrap_pexels(
         links = {*links, *new_links}
         print("Len links: ", len(links))
 
-        browser.execute_script(
-            f"window.scrollTo({scroll_height_from}, {scroll_height_to});"
-        )
+        browser.execute_script(f"window.scrollTo({scroll_height_from}, {scroll_height_to});")
         scroll_height_from = scroll_height_to
         scroll_height_to += body_scroll_height
 
@@ -56,12 +50,8 @@ def scrap_pexels(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--links_file", default="links.txt", help="File used to store links to posts"
-    )
-    parser.add_argument(
-        "-q", "--query", default="corgi", type=str, help="Query (Hashtag)"
-    )
+    parser.add_argument("--links_file", default="links.txt", help="File used to store links to posts")
+    parser.add_argument("-q", "--query", default="corgi", type=str, help="Query (Hashtag)")
     parser.add_argument(
         "--max_posts",
         default=1000,
